@@ -10,8 +10,9 @@ Status: Partially Functional
 
 Basic Text Features for the Articles Complete 
 Query Only Text Features Complete
+Keyword Match Features Complete
 
-Completed features marked with an asterisk * below
+All completed features marked with an asterisk * below
 
 Current Work: Text Comparison Features
 
@@ -51,8 +52,8 @@ These are the planned list of features.
 
 #### Article to Query Match 
 
-- Abstract - Keywords 1 Matches
-- Abstract - Keywords 2 Matches
+- Abstract - Keywords 1 Matches *
+- Abstract - Keywords 2 Matches *
 - Abstract - Jaro Distance - Inclusion Criteria
 - Abstract - Levenschtein Distance - Inclusion Criteria
 - Abstract - Jaccard index - Inclusion Criteria
@@ -63,14 +64,14 @@ These are the planned list of features.
 - Abstract - Jaccard index - Exclusion Criteria
 - Abstract - Sorensen-Dice - Exclusion Criteria
 - Abstract - Ratcliff-Obershelp - Exclusion Criteria
-- Keywords - Keywords 1 Matches
-- Keywords - Keywords 2 Matches
+- Keywords - Keywords 1 Matches *
+- Keywords - Keywords 2 Matches *
 - Title - Jaro Distance - Inclusion Criteria
 - Title - Levenschtein Distance - Inclusion Criteria
 - Title - Jaro Distance - Exclusion Criteria
 - Title - Levenschtein Distance - Exclusion Criteria
-- Title - Keywords 1 Matches
-- Title - Keywords 2 Matches
+- Title - Keywords 1 Matches *
+- Title - Keywords 2 Matches *
 
 
 #### Query Specific

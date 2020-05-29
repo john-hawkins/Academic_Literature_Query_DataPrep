@@ -1,3 +1,6 @@
 document classification
-natural language processing
+document language processing
+text mining
+document features
 query refinement
+information retrieval

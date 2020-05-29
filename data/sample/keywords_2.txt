@@ -1,3 +1,5 @@
 academic literature search
-text mining academic publications
+academic query refinement
 abstract selection
+literature review software
+identify relevant papers

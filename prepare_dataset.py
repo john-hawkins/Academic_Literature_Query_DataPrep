@@ -11,7 +11,7 @@ stop_word_list = stopwords.words('english')
 
 #################################################################################
 def main():
-    if len(sys.argv) < 8:
+    if len(sys.argv) < 9:
         print("*** ERROR: MISSING ARGUMENTS *** ")
         print_usage(sys.argv)
         exit(1)
@@ -20,13 +20,14 @@ def main():
         title_col = (sys.argv[2])
         abstract_col = (sys.argv[3])
         author_col = (sys.argv[4])
-        inclusion = (sys.argv[5])
-        exclusion = (sys.argv[6])
-        keywords_1 = (sys.argv[7])
-        keywords_2 = (sys.argv[8])
+        keywords_col = (sys.argv[5])
+        inclusion = (sys.argv[6])
+        exclusion = (sys.argv[7])
+        keywords_1 = (sys.argv[8])
+        keywords_2 = (sys.argv[9])
 
         df = process_data(articles, title_col, abstract_col, author_col, 
-                     inclusion, exclusion, keywords_1, keywords_2)
+                     keywords_col, inclusion, exclusion, keywords_1, keywords_2)
 
         output = StringIO()
         df.to_csv(output, index=False, header=True)
@@ -37,13 +38,13 @@ def main():
 #################################################################################
 def print_usage(args):
     print("USAGE ")
-    print(args[0], "<ARTICLES CSV> <TITLE COL> <ABSTRACT COL> <AUTHOR COL> <INCLUSION CRITERIA> <EXCLUSION CRITERIA> <KEYWORDS 1> <KEYWORDS 2>")
+    print(args[0], "<ARTICLES CSV> <TITLE COL> <ABSTRACT COL> <AUTHOR COL> <KEYWORDS_COL> <INCLUSION CRITERIA> <EXCLUSION CRITERIA> <KEYWORDS 1> <KEYWORDS 2>")
     print(" All files but the first are raw text files. The kewords files should be one per line.")
     print()
 
 
 #################################################################################
-def process_data(articles, title_col, abstract_col, author_col, inclusion, exclusion, keywords_1, keywords_2):
+def process_data(articles, title_col, abstract_col, author_col, keywords_col, inclusion, exclusion, keywords_1, keywords_2):
     """
     Main control function
     Load the required files and then add the feature sets.
@@ -54,22 +55,39 @@ def process_data(articles, title_col, abstract_col, author_col, inclusion, exclu
     exc = Path(exclusion).read_text()
     keys1 = Path(keywords_1).read_text()
     keys2 = Path(keywords_2).read_text()
+    k1list = [x for x in keys1.split("\n") if x]
+    k2list = [x for x in keys2.split("\n") if x]
     df2 = add_text_summary_features(df, title_col, abstract_col)
     df3 = add_author_features(df2, author_col)
-    df4 = add_query_features(df3, inc, exc, keys1, keys2)
-    return df4
+    df4 = add_query_features(df3, inc, exc, k1list, k2list)
+    df5 = add_keywords_features(df4, title_col, abstract_col, keywords_col, k1list, k2list)
+    return df5
+
 
 #################################################################################
-def add_query_features(df, inc, exc, keys1, keys2):
+def add_keywords_features(df, title_col, abstract_col, keywords_col, k1list, k2list):
+    """
+    Return a copy of a dataframe with features describing matching 
+    between the query keywords and the articles in the dataframe
+    """
+    df_new = df.copy()
+    def keyword_features(x, col):
+        raw_text = x[col].lower()
+        k1matches = sum( x in raw_text for x in k1list)
+        k2matches = sum( x in raw_text for x in k2list)
+        return k1matches, k2matches
+    df_new[['title_k1', 'title_k2']] = df_new.apply(keyword_features, col=title_col, axis=1, result_type="expand")
+    df_new[['abstract_k1', 'abstract_k2']] = df_new.apply(keyword_features, col=abstract_col, axis=1, result_type="expand")
+    df_new[['keywords_k1', 'keywords_k2']] = df_new.apply(keyword_features, col=keywords_col, axis=1, result_type="expand")
+    return df_new
+
+#################################################################################
+def add_query_features(df, inc, exc, k1list, k2list):
     """
     Return a copy of a dataframe with summary features added for
     the named text files defining the query
     """
     df_new = df.copy()
-    k1list = keys1.split("\n")
-    k2list = keys2.split("\n")
-    k1list.remove("")
-    k2list.remove("")
     k1lens = list(map(len, k1list))
     k2lens = list(map(len, k2list))
     k1max = max(k1lens)

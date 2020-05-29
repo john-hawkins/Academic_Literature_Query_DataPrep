@@ -1,4 +1,1 @@
-We are looking for studies of natural language processing that 
-involve classifying documents based on how well they match as set
-of text based criteria. Including keywork matching and sense matching
-of text.
+We are looking for studies of natural language processing and machine learning approaches that involve classifying documents based on how well they match a particular query definitions. The technique will require generation of features that determine how well the semantics of the query definitions match the abstracts and titles of the academic papers. This should include criteria of inclusion and exclusion as well as keyword matching.

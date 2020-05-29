@@ -1,3 +1,1 @@
-Exclude any studies where the document classification is based purely
-on the content of the document itself. In other words the discrimination
-is not based on how well the document matches a set of language criteria.
+We should exclude any studies where the document classification is based purely on the content of the documents themselves. Inward looking document features alone will typically only help with a single predetermined classification criteria. We need an approach that is sensitive to the specific of variable potential search criteria. We should also exclude studies that involve pure clustering on unsupervised techniques.
