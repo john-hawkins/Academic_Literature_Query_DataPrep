@@ -6,9 +6,13 @@ of building machine learning models to learn the features of academic abstracts 
 that they are of key interest for a specific academic enquiry.
 
 ```
-Status: Not Functional
+Status: Partially Functional
 
-Current Work: Core Library Function
+Basic Text Features Complete (marked with an asterisk * below)
+
+
+Current Work: Text Comparison Features
+
 ```
 ### Overview
 
