@@ -1,0 +1,3 @@
+Exclude any studies where the document classification is based purely
+on the content of the document itself. In other words the discrimination
+is not based on how well the document matches a set of language criteria.

@@ -1,5 +1,5 @@
 Academic Literature Query DataPrep
-=============================
+===================================
  
 This project contains a scripts for preparing datasets for the specific task
 of building machine learning models to learn the features of academic abstracts that indicate
@@ -27,11 +27,24 @@ distinguish which of the papers are appropriate for the query.
 
 These are the planned list of features.
 
+
 #### Article Specific
 
-- Abstract - Length
-- Abstract - Mean Word Length
-- Abstract - Proportion of General Words
+- Abstract - Length *
+- Abstract - Wordcount *
+- Abstract - Mean Word Length *
+- Abstract - Max Word Length *
+- Abstract - Proportion of Content Words *
+- Title - Length *
+- Title - Wordcount *
+- Title - Mean Word Length *
+- Title - Max Word Length *
+- Title - Proportion of Content Words *
+- Authors - Count 
+
+
+#### Article to Query Match 
+
 - Abstract - Keywords 1 Matches
 - Abstract - Keywords 2 Matches
 - Abstract - Jaro Distance - Inclusion Criteria
@@ -52,7 +65,7 @@ These are the planned list of features.
 - Title - Levenschtein Distance - Exclusion Criteria
 - Title - Keywords 1 Matches
 - Title - Keywords 2 Matches
-- Authors - Count
+
 
 #### Query Specific
 

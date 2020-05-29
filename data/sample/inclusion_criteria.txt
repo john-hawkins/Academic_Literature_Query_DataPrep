@@ -1,0 +1,4 @@
+We are looking for studies of natural language processing that 
+involve classifying documents based on how well they match as set
+of text based criteria. Including keywork matching and sense matching
+of text.
