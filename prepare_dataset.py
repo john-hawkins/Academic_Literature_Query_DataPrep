@@ -1,9 +1,10 @@
 #!/anaconda3/bin/python
 import sys
 import jellyfish
+import textdistance
 import pandas as pd
-from pathlib import Path
 from io import StringIO
+from pathlib import Path
 from nltk.corpus import stopwords
 
 stop_word_list = stopwords.words('english')
@@ -49,13 +50,49 @@ def process_data(articles, title_col, abstract_col, author_col, inclusion, exclu
     Gradually building up a larger feature enriched dataframe.
     """
     df = pd.read_csv(articles, encoding="ISO-8859-1")
-    inc_criteria = Path(inclusion).read_text()
-    exc_criteria = Path(exclusion).read_text()
+    inc = Path(inclusion).read_text()
+    exc = Path(exclusion).read_text()
     keys1 = Path(keywords_1).read_text()
     keys2 = Path(keywords_2).read_text()
     df2 = add_text_summary_features(df, title_col, abstract_col)
     df3 = add_author_features(df2, author_col)
-    return df3
+    df4 = add_query_features(df3, inc, exc, keys1, keys2)
+    return df4
+
+#################################################################################
+def add_query_features(df, inc, exc, keys1, keys2):
+    """
+    Return a copy of a dataframe with summary features added for
+    the named text files defining the query
+    """
+    df_new = df.copy()
+    k1list = keys1.split("\n")
+    k2list = keys2.split("\n")
+    k1list.remove("")
+    k2list.remove("")
+    k1lens = list(map(len, k1list))
+    k2lens = list(map(len, k2list))
+    k1max = max(k1lens)
+    k2max = max(k2lens)
+    k1count = len(k1list)
+    k2count = len(k2list)
+    df_new['k1_count'] = k1count
+    df_new['k2_count'] = k2count
+    df_new['k1_max'] = k1max
+    df_new['k2_max'] = k2max
+    jaro_dist = jellyfish.jaro_distance(inc,exc)
+    lev_dist = jellyfish.levenshtein_distance(inc,exc)
+    ji = textdistance.jaccard(inc,exc)
+    sd = textdistance.sorensen(inc, exc)
+    ro = textdistance.ratcliff_obershelp(inc, exc)
+    #jellyfish.damerau_levenshtein_distance(inc,exc)
+    #jellyfish.jaro_winkler(inc,exc)
+    df_new['inc_jaro_exc'] = jaro_dist
+    df_new['inc_lev_exc'] = lev_dist
+    df_new['inc_ji_exc'] = ji
+    df_new['inc_sd_exc'] = sd
+    df_new['inc_ro_exc'] = ro
+    return df_new
 
 #################################################################################
 def add_author_features(df, author_col):
