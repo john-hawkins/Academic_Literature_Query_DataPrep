@@ -61,8 +61,27 @@ def process_data(articles, title_col, abstract_col, author_col, keywords_col, in
     df3 = add_author_features(df2, author_col)
     df4 = add_query_features(df3, inc, exc, k1list, k2list)
     df5 = add_keywords_features(df4, title_col, abstract_col, keywords_col, k1list, k2list)
-    return df5
+    df6 = add_criteria_match_features(df5, title_col, abstract_col, inc, "inc")
+    df7 = add_criteria_match_features(df6, title_col, abstract_col, exc, "exc")
+    return df7
 
+#################################################################################
+def add_criteria_match_features(df, title_col, abstract_col, crit, suffix):
+    """
+    Return a copy of a dataframe with features describing matching
+    between the query keywords and the articles in the dataframe
+    """
+    df_new = df.copy()
+    def criteria_features(x, col):
+        raw_text = x[col].lower()
+        jd = jellyfish.jaro_distance(raw_text,crit)
+        ld = jellyfish.levenshtein_distance(raw_text,crit)
+        ji = textdistance.jaccard(raw_text,crit)
+        sd = textdistance.sorensen(raw_text, crit)
+        ro = textdistance.ratcliff_obershelp(raw_text, crit)
+        return jd, ld, ji, sd, ro
+    df_new[['abstract_jd_'+suffix, 'abstract_ld_'+suffix,'abstract_ji_'+suffix,'abstract_sd_'+suffix,'abstract_ro_'+suffix]] = df_new.apply(criteria_features, col=abstract_col, axis=1, result_type="expand")
+    return df_new
 
 #################################################################################
 def add_keywords_features(df, title_col, abstract_col, keywords_col, k1list, k2list):

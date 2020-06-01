@@ -11,10 +11,12 @@ Status: Partially Functional
 Basic Text Features for the Articles Complete 
 Query Only Text Features Complete
 Keyword Match Features Complete
+Article to Query Match Feature Complete
 
 All completed features marked with an asterisk * below
 
-Current Work: Text Comparison Features
+
+Current Work: Word Embedding Features
 
 ```
 ### Overview
@@ -66,10 +68,6 @@ These are the planned list of features.
 - Abstract - Ratcliff-Obershelp - Exclusion Criteria
 - Keywords - Keywords 1 Matches *
 - Keywords - Keywords 2 Matches *
-- Title - Jaro Distance - Inclusion Criteria
-- Title - Levenschtein Distance - Inclusion Criteria
-- Title - Jaro Distance - Exclusion Criteria
-- Title - Levenschtein Distance - Exclusion Criteria
 - Title - Keywords 1 Matches *
 - Title - Keywords 2 Matches *
 
@@ -87,7 +85,16 @@ These are the planned list of features.
 - Inclusion Criteria - Ratcliff-Obershelp - Exclusion Criteria *
 
 
-These text similarity algorithms are [explained in this article](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227)
+All of the text similarity algorithms are [explained in this article](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227)
+
+
+#### Word Embedding Features
+
+In order to provide a concise representation of how well the abstract matches the query
+we calculate word embeddings for all words in both and then calculate their cosine similarity.
+
+- Abstract - Word Embedding Cosine Similarity - Inclusion Criteria
+- Abstract - Word Embedding Cosine Similarity - Exclusion Criteria
 
 
 
