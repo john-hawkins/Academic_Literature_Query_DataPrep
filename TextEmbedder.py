@@ -1,4 +1,5 @@
-import lexvec
+sys.path.append("./lexvec")
+import Lexvec as lexvec
 
 pathtomodelbin = "models/lexvec.commoncrawl.ngramsubwords.bin"
 
